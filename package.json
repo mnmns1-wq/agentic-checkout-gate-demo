@@ -1,0 +1,10 @@
+{
+  "name": "agentic-checkout-gate-demo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "lint": "node --check src/CheckoutSummary.js && node --check test/checkout-summary.test.js",
+    "test": "node --test test/checkout-summary.test.js"
+  }
+}
