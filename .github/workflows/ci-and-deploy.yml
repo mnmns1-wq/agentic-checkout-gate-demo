@@ -22,14 +22,40 @@ jobs:
       - name: Test
         run: npm test
 
-  deploy:
-    name: deploy production
+  deploy-qa:
+    name: deploy qa
     needs: lint-test
+    runs-on: ubuntu-latest
+    environment: qa
+    steps:
+      - uses: actions/checkout@v4
+      - name: Simulate QA deploy
+        run: |
+          echo "Fictional QA deploy gate only — no real target"
+          echo "sha=${GITHUB_SHA}"
+
+  e2e-qa:
+    name: e2e / QA
+    needs: deploy-qa
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Simulated e2e smoke
+        run: |
+          echo "Fictional e2e/QA gate — no browser target"
+          npm test
+
+  deploy-production:
+    name: deploy production
+    needs: e2e-qa
     runs-on: ubuntu-latest
     environment: production
     steps:
       - uses: actions/checkout@v4
       - name: Simulate production deploy
         run: |
-          echo "Fictional deploy gate only — no real target"
+          echo "Fictional production deploy gate only — no real target"
           echo "sha=${GITHUB_SHA}"
