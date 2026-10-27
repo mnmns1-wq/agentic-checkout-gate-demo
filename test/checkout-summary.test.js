@@ -10,9 +10,10 @@ test('formatMoney treats invalid as zero', () => {
   assert.equal(formatMoney('nope', 'USD'), 'USD 0.00');
 });
 
-test('buildCheckoutSummary exposes total due line', () => {
-  const view = buildCheckoutSummary({ total: '100.00' });
+test('buildCheckoutSummary includes tax line', () => {
+  const view = buildCheckoutSummary({ tax: '8.00', total: '108.00' });
+  const tax = view.lines.find((l) => l.testId === 'tax-line');
   const total = view.lines.find((l) => l.testId === 'total-due');
-  assert.equal(total.value, 'USD 100.00');
-  assert.equal(view.lines.some((l) => l.testId === 'tax-line'), false);
+  assert.equal(tax.value, 'USD 8.00');
+  assert.equal(total.value, 'USD 108.00');
 });
