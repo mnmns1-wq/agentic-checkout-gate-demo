@@ -11,12 +11,13 @@ export function formatMoney(amount, currency = 'USD') {
 
 /**
  * Returns a plain view-model for a checkout summary card.
- * (No JSX / no framework — keeps CI dependency-free.)
+ * Tax line added on this branch for the fictional agent PR.
  */
 export function buildCheckoutSummary({
   currency = 'USD',
   subtotal = '100.00',
-  total = '100.00',
+  tax = '8.00',
+  total = '108.00',
   guestLabel = 'Guest',
 } = {}) {
   return {
@@ -25,6 +26,7 @@ export function buildCheckoutSummary({
     currency,
     lines: [
       { label: 'Subtotal', testId: 'subtotal', value: formatMoney(subtotal, currency) },
+      { label: 'Tax', testId: 'tax-line', value: formatMoney(tax, currency) },
       { label: 'Total due', testId: 'total-due', value: formatMoney(total, currency) },
     ],
     primaryAction: 'Continue to payment',
