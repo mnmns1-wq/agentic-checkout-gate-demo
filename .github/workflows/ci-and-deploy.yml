@@ -1,0 +1,35 @@
+name: CI and deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-test:
+    name: lint / test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm test
+
+  deploy:
+    name: deploy production
+    needs: lint-test
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Simulate production deploy
+        run: |
+          echo "Fictional deploy gate only — no real target"
+          echo "sha=${GITHUB_SHA}"
